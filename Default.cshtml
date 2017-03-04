@@ -22,7 +22,7 @@
     var json_o = (new JavaScriptSerializer()).Serialize(r);
     */
 
-    List<Coord> cs = new List<Coord>();
+/*    List<Coord> cs = new List<Coord>();
     string[] lines = File.ReadAllLines(Server.MapPath("/coords.txt"));
     foreach(string line in lines){
         cs.Add(new Coord(Convert.ToDouble(line.Split(',')[1]), Convert.ToDouble(line.Split(',')[0])));  
@@ -30,15 +30,26 @@
 
     Manager m = Manager.getInstance();
 
-    m.van_route.Remove(2);
-
     for(int i = 0; i < cs.Count; i++) {
-        m.new_reading(cs[i], 2);
+        m.new_reading(cs[i], 3);
     }
 
-    Route R = m.get_van_route(2);
+    Route R = m.get_van_route(3);
     var json = (new JavaScriptSerializer()).Serialize(R);
     <text>@json</text>
+
+ //   Manager m = Manager.getInstance(); */
+
+ var db = Database.Open("vane");
+ var qs = db.Query("SELECT * FROM routes WHERE van_id = @0", 3);
+ var q1 = db.QuerySingle("SELECT * FROM route_endpoints WHERE van_id = @0", 3);
+ <text>@q1.start_lat,@q1.start_lon <br/></text>
+ foreach(var q in qs){
+    <text>@q.lat,@q.lon<br/></text>     
+ }
+ <text>@q1.end_lat,@q1.end_lon<br/></text>
+
+Manager.getInstance().van_route.Keys
 
 }
 
