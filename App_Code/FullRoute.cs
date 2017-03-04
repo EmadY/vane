@@ -17,8 +17,8 @@ public class FullRoute
     public double total_dist = 0;
     public bool correct_direction = true;   // determines whether we are moving in the correct direction.
                                             // ie from start -> end or from end -> start.
-    private int old_loc_ind = -1;
-    
+    public int old_loc_ind = -1;
+
     public FullRoute(int vid)
     {
         coords = new List<Coord>();
@@ -41,7 +41,7 @@ public class FullRoute
 
         var qs = db.Query("SELECT lat, lon FROM routes WHERE van_id = @0", vid);
         foreach(var sq in qs) {
-            Coord nc = new Coord(sq.lat, sq.lon);
+            Coord nc = new Coord(Convert.ToDouble(sq.lat), Convert.ToDouble(sq.lon));
             verbose_attempt_add(nc);
         }
 
@@ -49,7 +49,7 @@ public class FullRoute
     }
 
 
-    // attemps to insert the coordinate in the entire list. 
+    // attemps to insert the coordinate in the entire list.
     // The attemp will only succeed if there isn't a near enough point anywhere else. In this case.
     // 1. The index at which it is placed is returned.
     // 2. The data is entered into the db.
@@ -83,8 +83,8 @@ public class FullRoute
         double dist_to_after = Coord.dist(c, coords[1]);
         if(dist_to_before < Coord.IGNORE_DIST) return 2;
 
-        double lowest_dist = total_dist - dists[0] + dist_to_after + dist_to_before; 
-        
+        double lowest_dist = total_dist - dists[0] + dist_to_after + dist_to_before;
+
         for(int i = 2; i < coords.Count; i ++) {
             dist_to_before = Coord.dist(c, coords[i-1]);
             if(dist_to_before < Coord.IGNORE_DIST) return i;
@@ -96,7 +96,7 @@ public class FullRoute
                 best_i = i; lowest_dist = curr_dist;
             }
         }
-        
+
         total_dist = lowest_dist;
         dists[best_i - 1] = Coord.dist(c, coords[best_i - 1]);
         dists.Insert(best_i, Coord.dist(c, coords[best_i]));
@@ -108,13 +108,13 @@ public class FullRoute
         db.Close();
 
         return best_i;
-    } 
+    }
 
 
-    // returns the index of where it would be placed if it were going to be placed. 
+    // returns the index of where it would be placed if it were going to be placed.
     // This is used to determine which direction we are moving in (ask about last two locations and
     // check chagne in i).
-    public int theoretic_add(Coord c){        
+    public int theoretic_add(Coord c){
         if(coords.Count == 2) {
             return 1;
         }
@@ -123,8 +123,8 @@ public class FullRoute
         double dist_to_before = Coord.dist(c, coords[0]);
         double dist_to_after = Coord.dist(c, coords[1]);
 
-        double lowest_dist = total_dist - dists[0] + dist_to_after + dist_to_before; 
-        
+        double lowest_dist = total_dist - dists[0] + dist_to_after + dist_to_before;
+
         for(int i = 2; i < coords.Count; i ++) {
             dist_to_before = Coord.dist(c, coords[i-1]);
             dist_to_after = Coord.dist(c, coords[i]);
@@ -134,11 +134,11 @@ public class FullRoute
                 best_i = i; lowest_dist = curr_dist;
             }
         }
-        
+
         return best_i;
     }
 
-    // called everytime a new coord is recieved. It tries to add it to the route, then sees if it can determine the direction from it. 
+    // called everytime a new coord is recieved. It tries to add it to the route, then sees if it can determine the direction from it.
     public void update_new_loc(Coord c) {
         int new_loc_ind = verbose_attempt_add(c);
         if(old_loc_ind != -1) {
@@ -148,7 +148,7 @@ public class FullRoute
         old_loc_ind = new_loc_ind;
 
         var db = Database.Open("vane");
-        db.Execute("Update recent_reading SET lat = @0, lon = @1, time = @2 WHERE van_id = @3", c.lat.ToString(), c.lon.ToString(), DateTime.Now);
+        db.Execute("Update recent_reading SET lat = @0, lon = @1, time = @2 WHERE van_id = @3", c.lat.ToString(), c.lon.ToString(), DateTime.Now, van_id);
         db.Close();
     }
 

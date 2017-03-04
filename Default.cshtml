@@ -22,6 +22,24 @@
     var json_o = (new JavaScriptSerializer()).Serialize(r);
     */
 
+    List<Coord> cs = new List<Coord>();
+    string[] lines = File.ReadAllLines(Server.MapPath("/coords.txt"));
+    foreach(string line in lines){
+        cs.Add(new Coord(Convert.ToDouble(line.Split(',')[1]), Convert.ToDouble(line.Split(',')[0])));  
+    }
+
+    Manager m = Manager.getInstance();
+
+    m.van_route.Remove(2);
+
+    for(int i = 0; i < cs.Count; i++) {
+        m.new_reading(cs[i], 2);
+    }
+
+    Route R = m.get_van_route(2);
+    var json = (new JavaScriptSerializer()).Serialize(R);
+    <text>@json</text>
+
 }
 
 <!DOCTYPE html>
@@ -33,6 +51,5 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     </head>
     <body>
-        @json_o
     </body>
 </html>

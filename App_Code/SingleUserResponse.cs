@@ -17,7 +17,12 @@ public class SingleUserResponse
     
     public Route van_route;
 
-    public SingleUserResponse(Coord user_s, Coord user_van_m, Coord van_s, Coord van_e, Coord user_e, Route van_r)
+    public int time_to_pickup = 0;
+    public int time_for_van = 0;
+    public int time_to_location = 0;
+
+    public SingleUserResponse(Coord user_s, Coord user_van_m, Coord van_s, Coord van_e, Coord user_e, Route van_r,
+                              int ttp, int tfv, int ttl)
     {
         user_start = user_s;
         user_end = user_e;
@@ -25,5 +30,8 @@ public class SingleUserResponse
         van_start = van_s;
         van_end = van_e;
         van_route = van_r;
+        time_to_location = ttl;
+        time_for_van = tfv;
+        time_to_pickup = ttp;
     }
 }

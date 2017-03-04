@@ -10,11 +10,12 @@
 
     int van_id = 0;
 
-    if(db.QueryValue("SELECT Count (*) FROM van_ids WHERE name = @0", name) == 0){
+    if(db.QueryValue("SELECT Count (*) FROM van_ids WHERE van_name = @0", name) == 0){
         db.Execute("INSERT INTO van_ids (van_name) VALUES (@0)", name);
         van_id = db.QuerySingle("SELECT van_id FROM van_ids WHERE van_name = @0", name).van_id;
         db.Execute("INSERT INTO recent_reading (van_id, lat, lon, time) VALUES (@0, @1, @2, @3)", van_id, 0, 0, DateTime.Now);
     }
+    van_id = db.QuerySingle("SELECT van_id FROM van_ids WHERE van_name = @0", name).van_id;
 
     <text>@van_id</text>
 }
