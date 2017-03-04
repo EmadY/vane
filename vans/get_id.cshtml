@@ -1,0 +1,20 @@
+﻿@{
+    // Get id for data storage for this van. 
+    // 
+    // Parameters: 
+    // name: a unique named identifier hardcoded into the hardware which is installed in this van.
+    // Retunrs the id of this van, to be stored.
+
+    var name = Request["name"].ToString();
+    var db = Database.Open("vane");
+
+    int van_id = 0;
+
+    if(db.QueryValue("SELECT Count (*) FROM van_ids WHERE name = @0", name) == 0){
+        db.Execute("INSERT INTO van_ids (van_name) VALUES (@0)", name);
+        van_id = db.QuerySingle("SELECT van_id FROM van_ids WHERE van_name = @0", name).van_id;
+        db.Execute("INSERT INTO recent_reading (van_id, lat, lon, time) VALUES (@0, @1, @2, @3)", van_id, 0, 0, DateTime.Now);
+    }
+
+    <text>@van_id</text>
+}

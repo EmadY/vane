@@ -1,0 +1,26 @@
+﻿@{
+    // Get request that returns a SingleUserResponse in JSON for the given set of data. 
+    // 
+    // Parameters: 
+    // uid: the user id recieved from get_id.
+    // user_start_lat: the user start latitude.
+    // user_start_lon: the user start longitude.
+    // user_end_lat: the user end latitude.
+    // user_end_lon: the user end longitudd.
+    // time: the current time of the request - to avoid recieving cached responses.
+    //
+    // Retunrs the JSON string containing a SingleUseResponse to be displayed.
+    //
+    // NOTE: It doesn't matter if this is requested because it was searched or because the user clicked
+    //      next option. They're both retrieved from this page.
+
+    Manager manager = Manager.getInstance();
+
+    int uid = Request["uid"].ToString().AsInt();
+    Coord user_start = new Coord(Convert.ToDouble(Request["user_start_lat"].ToString()), Convert.ToDouble(Request["user_start_lon"].ToString()));
+    Coord user_end = new Coord(Convert.ToDouble(Request["user_end_lat"].ToString()), Convert.ToDouble(Request["user_end_lon"].ToString()));
+    SingleUserResponse resp = manager.get_user_resp(uid, user_start, user_end);
+
+    var json = (new JavaScriptSerializer()).Serialize(resp);
+    <text>@json</text>
+}

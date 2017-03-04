@@ -1,0 +1,16 @@
+﻿@{
+    // Get request to confirm connection to server. 
+    // 
+    // Parameters: 
+    // pid: a phone_id, which can be anything as long as it's unique per phone. Note this is a string.
+    // Retunrs the id of this phone, to be stored.
+
+    var pid = Request["pid"].ToString();
+    var db = Database.Open("vane");
+
+    if(db.QueryValue("SELECT Count (*) FROM user_ids WHERE phone_id = @0", pid) == 0){
+        db.Execute("INSERT INTO user_ids (phone_id) VALUES (@0)", pid);        
+    }
+
+    <text>@db.QuerySingle("SELECT user_id FROM user_ids WHERE phone_id = @0", pid).user_id</text>
+}

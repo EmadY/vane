@@ -12,6 +12,7 @@ public class Coord
     public double lat;
     public double lon;
     static public double R = 6373000; // Radius of the Eath in meters
+    static public double IGNORE_DIST = 40; // any two points within 40 meters are considered the same point.
     public Coord(double latitude, double longitude)
     {
         lat = latitude; lon = longitude;

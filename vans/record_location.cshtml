@@ -1,0 +1,12 @@
+﻿@{
+    // POST request that provides the van's current location.
+    // 
+    // Parameters: 
+    // vid: van id from get_id.
+    // lat: latitude.
+    // lon: longitude.
+    //
+    // Does not return anything.
+
+    Manager.getInstance().new_reading(new Coord(Convert.ToDouble(Request[lat].ToString()), Convert.ToDouble(Request[lon].ToString())), Request["van_id"].ToString().AsInt());
+}
