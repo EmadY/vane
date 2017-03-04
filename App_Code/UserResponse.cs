@@ -49,4 +49,45 @@ public class UserResponse
         if(Coord.dist(curr_end, user_end) > 50) return false;
         return true;
     }
+
+
+    public bool check_efficient(Route route) {
+       int st = get_intersection_s(route);
+       int en = get_intersection_e(route);
+       return st != -1 && en != -1;
+   }
+
+   public int get_intersection_s(Route route) {
+       double min_d = 999999;
+       int min_ind = -1;
+       double curr_distt = 0;
+       for (var i = 0; i < route.coords.Count; i++) {
+           if (i > 0) curr_distt = curr_distt + Coord.dist(route.coords[i], route.coords[i-1]);
+           double tmp = Coord.dist(user_start, route.coords[i]);
+           bool improve = tmp < min_d;
+           bool doable = (tmp/1.4 < curr_distt/route.avg_speed);
+           if (improve && doable) {
+               min_d = tmp;
+               min_ind = i;
+           }
+       }
+       return min_ind;
+   }
+   
+   public int get_intersection_e(Route route) {
+       double min_d = 999999;
+       int min_ind = -1;
+       double curr_distt = 0;
+       for (var i = 0; i < route.coords.Count; i++) {
+           if (i > 0) curr_distt = curr_distt + Coord.dist(route.coords[i], route.coords[i-1]);
+           double tmp = Coord.dist(user_end, route.coords[i]);
+           bool improve = tmp < min_d;
+           bool doable = (tmp/1.4 < curr_distt/route.avg_speed);
+           if (improve && doable) {
+               min_d = tmp;
+               min_ind = i;
+           }
+       }
+       return min_ind;
+   }
 }
