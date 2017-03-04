@@ -69,4 +69,10 @@ public class Manager
         }
 
     }
+
+    public void wake_up_routes() {
+        for(int i = 1; i < 4; i ++){
+            get_van_route(i);
+        }
+    }
 }

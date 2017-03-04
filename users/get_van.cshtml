@@ -1,4 +1,7 @@
-﻿@{
+﻿@using System.Linq;
+@using System.Collections.Generic;
+@using System.Web.Script.Serialization;
+@{
     // Get request that returns a SingleUserResponse in JSON for the given set of data. 
     // 
     // Parameters: 
@@ -20,6 +23,8 @@
     Coord user_start = new Coord(Convert.ToDouble(Request["user_start_lat"].ToString()), Convert.ToDouble(Request["user_start_lon"].ToString()));
     Coord user_end = new Coord(Convert.ToDouble(Request["user_end_lat"].ToString()), Convert.ToDouble(Request["user_end_lon"].ToString()));
     SingleUserResponse resp = manager.get_user_resp(uid, user_start, user_end);
+
+    UserResponse ur = new UserResponse(uid, user_start, user_end);
 
     var json = (new JavaScriptSerializer()).Serialize(resp);
     <text>@json</text>

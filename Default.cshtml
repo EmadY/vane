@@ -40,16 +40,32 @@
 
  //   Manager m = Manager.getInstance(); */
 
- var db = Database.Open("vane");
- var qs = db.Query("SELECT * FROM routes WHERE van_id = @0", 1);
- var q1 = db.QuerySingle("SELECT * FROM route_endpoints WHERE van_id = @0", 1);
- <text>@q1.start_lat,@q1.start_lon <br/></text>
- foreach(var q in qs){
-    <text>@q.lat,@q.lon<br/></text>     
- }
- <text>@q1.end_lat,@q1.end_lon<br/></text>
+ Manager m = Manager.getInstance();
+ m.new_reading(new Coord(33.894108 ,35.506922), 1);
+ m.new_reading(new Coord(33.8941881 ,35.5065465), 1);
 
+ m.new_reading(new Coord(33.8943395, 35.5484963), 2);
+ m.new_reading(new Coord(33.894681 ,35.547249), 2);
 
+ m.new_reading(new Coord(33.895328, 35.4875699), 3);
+ m.new_reading(new Coord(33.8950787, 35.487543), 3);
+
+ 
+
+/* Coord next_van1 = new Coord(33.89933876617588,35.484729409217834);
+ Coord next_next_van1 = new Coord(33.87290423028006,35.505900755524635);
+
+// UserResponse ur = new UserResponse(1, next_van1, next_next_van1);
+
+ 
+
+var R = Manager.getInstance().get_user_resp(1, next_van1, next_next_van1);
+
+var json = (new JavaScriptSerializer()).Serialize(R);
+
+    <text>@json</text>
+
+   */ 
 }
 
 <!DOCTYPE html>
