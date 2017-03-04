@@ -1,0 +1,36 @@
+﻿@using System.Linq;
+@using System.Collections.Generic;
+@using System.Web.Script.Serialization;
+@{
+    
+    Coord one = new Coord(33.899417, 35.481614);
+    Coord two = new Coord(33.899373, 35.481290);
+    Coord three = new Coord(33.899395, 35.480890);
+    Coord four = new Coord(33.899540, 35.480498);
+    Coord five = new Coord(33.899564, 35.480018);
+//    Coord six = new Coord(33.899600, 35.479581);
+
+
+    Route r = new Route(one, five);
+//    r.add_coord(five);
+    r.add_coord(three);
+    r.add_coord(four);
+    r.add_coord(two);
+
+    JavaScriptSerializer json = new JavaScriptSerializer();
+    var json_o = json.Serialize(r);
+
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>vané</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    </head>
+    <body>
+        @json_o
+    </body>
+</html>
