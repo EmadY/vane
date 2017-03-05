@@ -38,7 +38,7 @@ public class FullRoute
             verbose_attempt_add(nc);
         }
         // get avg_speed from db
-        avg_speed = 1;
+        avg_speed = 10;
         db.Close();
     }
     // attemps to insert the coordinate in the entire list.

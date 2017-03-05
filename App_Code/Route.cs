@@ -13,7 +13,7 @@ public class Route
     public double total_dist = 0;
     public Route(List<Coord> cds, double td)
     {
-        avg_speed = 1;
+        avg_speed = 10;
         coords = cds;
         total_dist = td;
     }

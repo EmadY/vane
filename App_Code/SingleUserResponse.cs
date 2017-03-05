@@ -40,9 +40,9 @@ public class SingleUserResponse
         van_end = van_e;
         van_route = van_r;
         
-        time_to_location = (int)(Coord.dist(user_s, user_van_m)/(1.4*60))+1;
+        time_to_location = (int)((Coord.dist(user_s, user_van_m)+Coord.dist(van_e, user_e))/(1.4*60) + 1);
         time_for_van = (int)(Coord.dist(user_van_m, van_e)/(van_r.avg_speed*60))+1;
-        time_to_pickup = (int)(Coord.dist(van_e, user_e)/(1.4*60))+1;
+        time_to_pickup = time_to_location + time_for_van;
     }
     public int get_WalkTime() {
         return time_to_location + time_to_pickup;

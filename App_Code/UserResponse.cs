@@ -73,7 +73,7 @@ public class UserResponse
            if (i > 0) curr_distt = curr_distt + Coord.dist(route.coords[i], route.coords[i-1]);
            double tmp = Coord.dist(user_start, route.coords[i]);
            bool improve = tmp < min_d;
-           bool doable = (tmp/1.4 < curr_distt/route.avg_speed);
+           bool doable = true;//(tmp/1.4 < curr_distt/route.avg_speed);
            if (improve && doable) {
                min_d = tmp;
                min_ind = i;
